@@ -1,0 +1,13 @@
+GET http://localhost:8000/api/authors/
+
+###
+GET http://localhost:8000/authors/5
+
+###
+POST http://localhost:8000/api/authors/
+Content-Type: application/json
+
+{
+  "name": "Pel Mutanguha",
+    "bio": "Pel is a software engineer who loves to write code and build software applications."
+}
