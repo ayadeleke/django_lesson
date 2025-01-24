@@ -78,6 +78,7 @@ This is a RESTful API for managing a book catalog, allowing you to perform opera
 
 - **GET /api/authors/**: Get a list of all authors.
 - **POST /api/authors/**: Add a new author.
+- **PUT /api/authors/**: Edit author's data.
 
 ### **2. Book Endpoints**
 
