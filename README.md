@@ -1,7 +1,3 @@
-Here's a sample `README.md` for your Book Catalog API project:
-
----
-
 # Book Catalog API
 
 This is a RESTful API for managing a book catalog, allowing you to perform operations like adding new books, retrieving books, and managing author details. The API is built using Django and Django REST Framework.
@@ -126,8 +122,3 @@ For deployment, you can follow standard Django deployment guidelines. You can de
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-### Customization
-Feel free to adjust the README with any specific details about your project setup or additional features you've added.
