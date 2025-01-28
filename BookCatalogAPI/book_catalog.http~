@@ -33,15 +33,19 @@ DELETE http://localhost:8000/api/genres/5/
 // all about books
 ###
 GET http://localhost:8000/books/
-# Authorization: Basic YXl0cmVhc3VyZTpPbGFpdGFuQDAx
+Authorization: Basic YXl0cmVhc3VyZTpPbGFpdGFuQDAx
 
 ###
 POST http://localhost:8000/api/books/
 Authorization: Basic YXl0cmVhc3VyZTpPbGFpdGFuQDAx
 Content-Type: application/json
 
-{
-  "title": "The Dark Tower",
-  "author": 1,
-  "genre": 1
-}
+        {
+          "title": "The Hitchhiker's Guide to the Galaxy",
+          "author": {[1]},
+          "year": 1979,
+          "genre": 1,
+          "publisher": "Pan Books",
+          "isbn": "978-0-00-000",
+          "description": "A comedy science fiction novel about the adventures of Arthur Dent, a man who lives in a dystopian world where everything is on the edge of destruction."
+        }
