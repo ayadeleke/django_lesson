@@ -1,10 +1,11 @@
 from rest_framework.routers import DefaultRouter
 from django.contrib import admin
 from django.urls import path, include
-from api.views import AuthorList, AuthorViewSet, list_authors
+from api.views import AuthorList, AuthorViewSet, list_authors, GenreList, GenreViewSet
 
 router = DefaultRouter()
 router.register('authors', AuthorViewSet)
+router.register('genres', GenreViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

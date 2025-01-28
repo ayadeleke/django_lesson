@@ -1,17 +1,11 @@
 from django.core.serializers import serialize
 from django.shortcuts import render
 from rest_framework import viewsets
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-
-from api.models import Author
-from api.serializer import AuthorSerializer
-
+from api.models import Author, Genre
+from api.serializer import AuthorSerializer, GenreSerializer
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from api.models import Author
-from api.serializer import AuthorSerializer
 from rest_framework.views import APIView
 
 
@@ -61,3 +55,47 @@ class AuthorList(APIView):
 class AuthorViewSet(viewsets.ModelViewSet):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
+
+### View for the Genre model ###
+class GenreList(APIView):
+    def get(self, request):
+        genres = Genre.objects.all()
+        serializer = GenreSerializer(genres, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        data = request.data
+        serializer = GenreSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors)
+
+@api_view(['POST', 'GET'])
+def list_genres(request):
+    if request.method == 'POST':
+        # Create a new genre
+        data = request.data
+        # Serialize the data
+        serializer = GenreSerializer(data=data)
+
+        # Check if the data is valid
+        if serializer.is_valid():
+            # Save the data to the database
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors)
+
+    else:
+        # Get list of genres from the database
+        genres = Genre.objects.all()
+        # Serialize the list of genres to JSON
+        serializer = GenreSerializer(genres, many=True)
+        # Return the serialized data
+        return Response(serializer.data)
+
+class GenreViewSet(viewsets.ModelViewSet):
+    queryset = Genre.objects.all()
+    serializer_class = GenreSerializer

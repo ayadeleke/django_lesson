@@ -11,3 +11,14 @@ Content-Type: application/json
   "name": "Pel Mutanguha",
     "bio": "Pel is a software engineer who loves to write code and build software applications."
 }
+
+###
+GET http://localhost:8000/api/genres/
+
+###
+POST http://localhost:8000/api/genres/
+Content-Type: application/json
+
+    {
+    "name": "narative"
+    }
