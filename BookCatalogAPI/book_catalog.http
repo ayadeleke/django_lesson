@@ -22,3 +22,7 @@ Content-Type: application/json
     {
     "name": "narative"
     }
+
+###
+DELETE http://localhost:8000/api/genres/5/
+
