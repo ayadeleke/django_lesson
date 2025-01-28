@@ -33,7 +33,7 @@ DELETE http://localhost:8000/api/genres/5/
 // all about books
 ###
 GET http://localhost:8000/books/
-Authorization: Basic YXl0cmVhc3VyZTpPbGFpdGFuQDAx
+# Authorization: Basic YXl0cmVhc3VyZTpPbGFpdGFuQDAx
 
 ###
 POST http://localhost:8000/api/books/

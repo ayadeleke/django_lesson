@@ -11,7 +11,9 @@ class AuthorSerializer(serializers.ModelSerializer):
 
 
 class BookSerializer(serializers.ModelSerializer):
-     class Meta:
+        author = AuthorSerializer(many=True)
+        genre = serializers.StringRelatedField()
+        class Meta:
          model = Book
          fields = ['id', 'title', 'author', 'year', 'genre', 'publisher', 'isbn', 'image', 'description']
          extra_kwargs = {'image': {'required': False}}

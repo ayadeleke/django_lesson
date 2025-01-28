@@ -14,5 +14,5 @@ urlpatterns = [
    #  path('api/genres/', list_genres),
    #  path('api/books/', list_books),
    # path('api/authors/', AuthorList.as_view()), ### Alternative URL configuration using class-based views
-    path('api/', include('api.urls')),
+    # path('api/', include('api.urls')),
 ] + router.urls ### Alternative URL configuration using viewsets
