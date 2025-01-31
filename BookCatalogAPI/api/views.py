@@ -1,20 +1,20 @@
-from django.core.serializers import serialize
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.views.decorators.cache import cache_page
 from rest_framework import viewsets, status
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
-
+from django_redis import cache
 from api.models import Author, Genre, Book
 from api.serializer import AuthorSerializer, GenreSerializer, BookSerializer
-from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework.pagination import PageNumberPagination
 
 ### Function based views for the Author model ###
 @api_view(['POST', 'GET'])
 @authentication_classes([BasicAuthentication])
 @permission_classes([IsAuthenticated])
+@cache_page(30)
 def list_authors(request):
     if request.method == 'POST':
         # Create a new author
@@ -26,6 +26,8 @@ def list_authors(request):
         if serializer.is_valid():
             # Save the data to the database
             serializer.save()
+            cache.delete_pattern("*")
+            # Return a success response
             return Response({"message": "Author created successfully"}, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors)
@@ -33,10 +35,16 @@ def list_authors(request):
     else:
         # Get list of authors from the database
         authors = Author.objects.all()
+
+        # Apply pagination
+        paginator = PageNumberPagination()
+        paginator.page_size = 5
+        paginated_authors = paginator.paginate_queryset(authors, request)
+
         # Serialize the list of authors to JSON
-        serializer = AuthorSerializer(authors, many=True)
-        # Return the serialized data
-        return Response(serializer.data)
+        serializer = AuthorSerializer(paginated_authors, many=True)
+        # Return the serialized paginated data
+        return paginator.get_paginated_response(serializer.data)
 
 ### Class-based views to achieve the same result:# ##
 # class AuthorList(APIView):
@@ -55,11 +63,11 @@ def list_authors(request):
 #             return Response(serializer.errors)
 
 ### Alternatively, you can use viewset to achieve the same result:# ##
-class AuthorViewSet(viewsets.ModelViewSet):
-    queryset = Author.objects.all()
-    serializer_class = AuthorSerializer
-    authentication_classes = [BasicAuthentication]
-    permission_classes = [IsAuthenticated]
+# class AuthorViewSet(viewsets.ModelViewSet):
+#     queryset = Author.objects.all()
+#     serializer_class = AuthorSerializer
+#     authentication_classes = [BasicAuthentication]
+#     permission_classes = [IsAuthenticated]
 
 ### View for the Genre model ###
 # class GenreList(APIView):
@@ -160,3 +168,9 @@ class BookViewSet(viewsets.ModelViewSet):
     serializer_class = BookSerializer
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
+
+def my_view(request):
+    # Store data for 60 seconds
+    cache.set("django_test_key", "Django and Redis work!", 60)
+    value = cache.get("django_test_key")  # Should print the value
+    return HttpResponse(value)

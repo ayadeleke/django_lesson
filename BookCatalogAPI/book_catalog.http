@@ -1,8 +1,8 @@
 // all about authors
-GET http://localhost:8000/api/authors/
+GET http://localhost:8000/api/authors/?page=2
 Authorization: Basic YXl0cmVhc3VyZTpPbGFpdGFuQDAx
 ###
-GET http://localhost:8000/authors/5
+GET http://localhost:8000/authors/1/
 
 ###
 POST http://localhost:8000/api/authors/
@@ -10,8 +10,8 @@ Authorization: Basic YXl0cmVhc3VyZTpPbGFpdGFuQDAx
 Content-Type: application/json
 
         {
-          "name": "Stephen K",
-          "bio": "Author of the Dark Tower series"
+          "name": "Stephen King",
+          "bio": "Author of the Dark Towr series"
         }
 
 ###
